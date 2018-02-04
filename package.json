@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "sinit": "sequelize-cli init"
+    "sinit": "sequelize-cli init",
+    "initdb": "sequelize init"
   },
   "dependencies": {
     "express": "^4.16.2",
