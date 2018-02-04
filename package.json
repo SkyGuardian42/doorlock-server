@@ -4,16 +4,17 @@
   "description": "Doorlock server",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "sinit": "sequelize-cli init"
   },
   "dependencies": {
     "express": "^4.16.2",
     "socket.io": "^2.0.4",
     "body-parser": "^1.18.2",
-
-    "sequelize": "^4.32.2",
-    "sqlite3": "^3.1.13"
-    
+    "sequelize": "^4.32.3",
+    "sqlite3": "^3.1.13",
+    "firebase-admin": "^5.8.2",
+    "@sendgrid/mail": "^6.2.1"
   },
   "engines": {
     "node": "8.x"
@@ -26,5 +27,8 @@
     "node",
     "glitch",
     "express"
-  ]
+  ],
+  "devDependencies": {
+    "sequelize-cli": "^3.2.0"
+  }
 }
