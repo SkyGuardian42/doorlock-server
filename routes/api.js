@@ -9,7 +9,7 @@ const open    = require('./api/open'),
 router.use('/open', open);
 router.use('/users', users);
 
-
+router.use('/user', user);
 router.use('/logs', logs);
 
 module.exports = router;
