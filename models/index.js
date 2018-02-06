@@ -5,14 +5,20 @@ var path      = require('path');
 var Sequelize = require('sequelize');
 var basename  = path.basename(__filename);
 var env       = process.env.NODE_ENV || 'development';
-var config    = require(__dirname + '/../config/config.json')[env];
 var db        = {};
 
-if (config.use_env_variable) {
-  var sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  var sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+var sequelize = new Sequelize('database', process.env.DB_USER, process.env.DB_PASS, {
+  host: '0.0.0.0',
+  dialect: 'sqlite',
+  operatorsAliases: false,
+  storage: '.data/database.sqlite',
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000
+  }
+});
 
 fs
   .readdirSync(__dirname)

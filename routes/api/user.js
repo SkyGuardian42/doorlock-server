@@ -1,19 +1,74 @@
 const express = require('express'),
-      router  = express.Router()
+      router  = express.Router(),
+      db      = require('../../models')
 
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-router.get('/', (req, res) => {
+
+// adds a user
+// name  - name of the user
+// email - email of the user
+// admin - boolean if admin or not
+router.put('/', (req, res, next) => {
+  const name  = req.body.name,
+        email = req.body.email,
+        admin = req.body.admin
+  
+  let nameRegex = /^(([A-Z]|[\u00C0-\u00DF])([a-z]|[\u00E0-\u00FF]|\u00DF)+ ?){2,}$/g;
+  let emailRegex = /^.+@.+\..+$/g;
+  
+  if(!nameRegex.test(name))
+    res.status(400).json({error: 'Name im falschen Format'})
+  else if(!emailRegex.test(email)) 
+    res.status(400).json({error: 'Email im falschen Format'})
+  else
+    next()
+})
+
+router.put('/', (req, res) => {
+  const name  = req.body.name,
+        email = req.body.email,
+        admin = req.body.admin
+    
+  let signupToken    = '',
+      possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  for (let i = 0; i < 16; i++)
+    signupToken += possible.charAt(Math.floor(Math.random() * possible.length))
+
+  db.sequelize.sync()
+  .then(() => db.User.create({
+    name: name,
+    email: email,
+    signupToken: signupToken,
+    admin: admin
+  }))
+  
   const msg = {
-  to: 'skyguardian42@gmail.com',
-  from: 'test@example.com',
-  subject: 'Sending with SendGrid is Fun',
-  text: 'and easy to do anywhere, even with Node.js',
-  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-};
-sgMail.send(msg);
-  console.log('sg send')
-  res.send('yes')
+    to: email,
+    from: 'doorlock@doorlock.malts.me',
+    subject: 'Registrierung HGO Türschloss',
+    text: `Du wurdest für das HGO Türschloss freigeschaltet!
+          Du kannst deine Registrierung unter https://doorlock.glitch.me?signup=${signupToken} abschließen.`,
+    html: `<h1>Du wurdest für das HGO Türschloss freigeschaltet!</h1>
+          <p>Du kannst deine Registrierung <a href="https://doorlock.glitch.me?signup=${signupToken}">hier</a> abschließen</p>`,
+  };
+
+  sgMail.send(msg);
+  res.status(201).json({status: 'success'})
+})
+
+// changes a users role
+// uid   - target user uid
+// role  - admin or not 
+router.patch('/', (req, res) => {
+ res.json({status: 'success'})
+})
+
+// deletes a user
+// uid - uid of user to delete
+router.delete('/', (req, res) => {
+  db.User.findAll()
+  .then(all => res.json(all))
 })
 
 module.exports = router;
