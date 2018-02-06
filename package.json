@@ -4,9 +4,10 @@
   "description": "Doorlock server",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "sinit": "sequelize-cli init",
-    "initdb": "sequelize init"
+    "start": "node --trace-warnings server.js",
+    "initdb": "sequelize init",
+    "createLog": "sequelize model:create --name User --attributes name:string,email:string,signupToken:string,admin:boolean ",
+    "migrate": "sequelize db:migrate"
   },
   "dependencies": {
     "express": "^4.16.2",

@@ -1,31 +1,25 @@
 const express = require('express'),
       router  = express.Router(),
       admin   = require('firebase-admin'),
-      Sequelize  = require('sequelize');
-
+      db      = require('../../models')
 
 // shows logs
-// token - firebase token
-// offset  - 10 log entries, starting from last position
+// offset - date from which to start looking  
+// takes 50 log entries starting from the offset & orders them by creation date
 router.post("/", (req, res) => {
-  const token  = req.body.token,
-        offset = req.body.offset
+  const offset = req.body.offset;
   
-  // takes 10 logs starting from offset, orders them by creation date and strips unneccessary data
-  // Log.findAll({ limit: 50, offset: 0, order: [ ['createdAt', 'DESC'] ] })
-  Log.findAll({ limit: 50, offset: offset, order: [ ['createdAt', 'DESC'] ] })
-    .then(logs => {
-      let newLogs = [];
-      logs.forEach(log => {
-        newLogs.push({
-          user: log.user,
-          action: log.action,
-          createdAt: log.createdAt
-        })
-      })
-      return newLogs;
-    })
-    .then(logs => res.json(logs))
+  db.Log.findAll({
+    limit: 35,
+    where:{
+      createdAt: {
+        [db.Sequelize.Op.lt]: offset ? offset : db.Sequelize.NOW()
+      }
+    },
+    order: [ ['createdAt', 'DESC'] ],
+    attributes: ['createdAt', 'user', 'action']
+  })
+    .then(logs => res.json(logs));
 });
 
 module.exports = router;
