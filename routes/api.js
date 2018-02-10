@@ -1,6 +1,6 @@
 const express = require('express'),
       router  = express.Router(),
-      admin   = require('firebase-admin');
+      admin   = require('../firebase');
 
 const open    = require('./api/open'),
       logs    = require('./api/logs'),
@@ -17,13 +17,20 @@ router.use((req, res, next) => {
     try {
       admin.auth().verifyIdToken(token)
       .then(user => {
-        req.firebaseUser = user
-        next()    
+        req.firebaseUser = user;
+        if(user.admin) 
+          next()
+        else if (req.url == '/open')
+          next();
+        else
+          res.status(403).json({error: 'forbidden'});  
       }).catch(e => {
-        res.status(400).json({error: e})
+        console.log(e);
+        res.status(400).json({error: e});
       });
     } catch (e) {
-      res.status(400).json({error: e})
+      console.log(e);
+      res.status(400).json({error: e});
     } 
   }
 })

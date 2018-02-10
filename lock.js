@@ -28,9 +28,7 @@ module.exports.listen = io => {
     socket.on('disconnect', socket => {
       door.id = ''
     })
-    
   })
-  
 }
 
 module.exports.open =  {

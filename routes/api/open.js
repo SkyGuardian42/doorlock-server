@@ -1,6 +1,5 @@
 const express = require('express'),
       router  = express.Router(),
-      admin   = require('firebase-admin'),
       lock    = require('../../lock').open,
       db      = require('../../models');
 
@@ -14,10 +13,9 @@ router.post("/", (req, res) => {
       action: 'Tür geöffnet'
     }))
 
-
   lock.open()
     .then(() => {
-      res.json({status: 'success'});
+      res.json({status: 'Tür geöffnet'});
     })
     .catch(e => res.json({error: e}))
 });
