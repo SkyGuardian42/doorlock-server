@@ -1,6 +1,5 @@
 const express = require('express'),
       router  = express.Router(),
-      admin   = require('firebase-admin'),
       db      = require('../../models')
 
 // shows logs
@@ -19,7 +18,7 @@ router.post("/", (req, res) => {
     order: [ ['createdAt', 'DESC'] ],
     attributes: ['createdAt', 'user', 'action']
   })
-    .then(logs => res.json(logs));
+  .then(logs => res.json(logs))
 });
 
 module.exports = router;

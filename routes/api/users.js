@@ -1,6 +1,6 @@
 const express = require('express'),
       router  = express.Router(),
-      admin   = require('firebase-admin');
+      admin   = require('../../firebase');
 
 // lists users
 router.post('/', (req, res) => {
@@ -9,6 +9,8 @@ router.post('/', (req, res) => {
       let users = [];
     
       data.users.forEach(user => users.push({
+        name: user.displayName,
+        admin: user.customClaims.admin,
         uid: user.uid,
         email: user.email
       }));

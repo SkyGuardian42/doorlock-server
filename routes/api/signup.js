@@ -1,7 +1,7 @@
 const express = require('express'),
       router  = express.Router(),
       db      = require('../../models'),
-      admin   = require('firebase-admin');
+      admin   = require('../../firebase');
 
 // finish signup process
 router.post('/', (req, res, next) => {
