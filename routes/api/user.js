@@ -55,7 +55,7 @@ router.put('/', (req, res) => {
     text: `Du wurdest für das HGO Türschloss freigeschaltet!
           Du kannst deine Registrierung unter https://doorlock.glitch.me?signup=${signupToken} abschließen.`,
     html: `<h1>Du wurdest für das HGO Türschloss freigeschaltet!</h1>
-          <p>Du kannst deine Registrierung <a href="https://doorlock.glitch.me?signup=${signupToken}">hier</a> abschließen</p>`,
+          <h3>Du kannst deine Registrierung <a href="https://doorlock.glitch.me?signup=${signupToken}">hier</a> abschließen</h3>`,
   };
   
   // send email to new user
