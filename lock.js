@@ -13,6 +13,7 @@ module.exports.listen = io => {
   sio = io
   io.on('connection', socket => {
 
+    
     // registers the doorlock
     socket.on('register-lock', data => {
       // check for valid api key
@@ -20,7 +21,6 @@ module.exports.listen = io => {
         return;
 
       door.id = socket.id;
-
       console.log('registered lock: ' + door.id);
       socket.emit('registered');
     })
@@ -32,10 +32,10 @@ module.exports.listen = io => {
 }
 
 module.exports.open =  {
-  open() { return new Promise((resolve, reject) => {
+  open(name) { return new Promise((resolve, reject) => {
     console.log(door.id)
     if(door.id !== ''){
-     sio.to(door.id).emit('open')
+     sio.to(door.id).emit('open',name)
      resolve('ok')
     } else {
      reject('Keine Tür registriert')  

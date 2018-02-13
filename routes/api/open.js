@@ -13,7 +13,7 @@ router.post("/", (req, res) => {
       action: 'Tür geöffnet'
     }))
 
-  lock.open()
+  lock.open(req.firebaseUser.name)
     .then(() => {
       res.json({status: 'Tür geöffnet'});
     })
