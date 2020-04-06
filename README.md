@@ -1,16 +1,21 @@
-HGO Türschloss
-=========================
+# Frontend des HGO-Türschlosses
 
+![Preview](https://user-images.githubusercontent.com/12611076/67965038-95ce4180-fc01-11e9-90f7-ceaff471f2b4.gif)
 
+> Vue Frontend fürs Türschloss des Informatikraums
 
-Your Project
-------------
+## Build Setup
 
-On the front-end,
-- edit `public/client.js`, `public/style.css` and `views/index.html`
-- drag in `assets`, like images or music, to add them to your project
+``` bash
+# install dependencies
+npm install
 
-On the back-end,
-- your app starts at `server.js`
-- add frameworks and packages in `package.json`
-- safely store app secrets in `.env` (nobody can see this but you and people you invite)
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+```
